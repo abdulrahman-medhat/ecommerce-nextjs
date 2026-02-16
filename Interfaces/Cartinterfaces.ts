@@ -4,6 +4,7 @@ export interface Category {
   name: string;
   image: string;
 }
+
 // Brand
 export interface Brand {
   _id: string;
@@ -16,7 +17,6 @@ export interface BrandResponse {
   results: number;
   data: Brand[];
 }
-
 
 // SubCategory
 export interface SubCategory {
@@ -35,6 +35,17 @@ export interface Product {
   imageCover: string;
   price: number;
   ratingsAverage: number;
+}
+
+// Cart
+export interface CartItem {
+  product: Product;
+  quantity: number;
+}
+
+export interface CartResponse {
+  results: number;
+  data: CartItem[];
 }
 
 // Responses
