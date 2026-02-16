@@ -4,6 +4,19 @@ export interface Category {
   name: string;
   image: string;
 }
+// Brand
+export interface Brand {
+  _id: string;
+  name: string;
+  image: string;
+}
+
+// Optional: Response type
+export interface BrandResponse {
+  results: number;
+  data: Brand[];
+}
+
 
 // SubCategory
 export interface SubCategory {
