@@ -1,31 +1,39 @@
-"use server"
+"use server";
 import { getServerSession } from "next-auth";
 import { authOption } from "../auth";
 
-export async function deletproductAction(productId:string) {
+export async function deletproductAction(productId: string) {
   const session = await getServerSession(authOption);
-  const response = await fetch("https://ecommerce.routemisr.com/api/v1/cart/" + productId, {
+  if (!session?.accessToken) return { status: "error", message: "User not authenticated" };
+
+  const headers: HeadersInit = {
+    ...(session.accessToken && { token: session.accessToken }),
+  };
+
+  const response = await fetch(`https://ecommerce.routemisr.com/api/v1/cart/${productId}`, {
     method: "DELETE",
-    headers: {
-      token: session?.accessToken
-    }
-  })
+    headers,
+  });
+
   if (!response.ok) return { status: "error", message: "Request failed" };
-  const data  = await response.json();
-  return data
+  return await response.json();
 }
 
 export async function clearCartAction() {
   const session = await getServerSession(authOption);
+  if (!session?.accessToken) return { status: "error", message: "User not authenticated" };
+
+  const headers: HeadersInit = {
+    ...(session.accessToken && { token: session.accessToken }),
+  };
+
   const response = await fetch("https://ecommerce.routemisr.com/api/v1/cart/", {
     method: "DELETE",
-    headers: {
-      token: session?.accessToken
-    }
-  })
+    headers,
+  });
+
   if (!response.ok) return { status: "error", message: "Request failed" };
-  const data  = await response.json();
-  return data
+  return await response.json();
 }
 
 export async function updateCartQuantityAction(productId: string, count: number) {
@@ -33,18 +41,21 @@ export async function updateCartQuantityAction(productId: string, count: number)
   if (!session?.accessToken) {
     return { status: "error", message: "User not authenticated" };
   }
+
+  const headers: HeadersInit = {
+    "Content-Type": "application/json",
+    ...(session.accessToken && { token: session.accessToken }),
+  };
+
   try {
     const response = await fetch(`https://ecommerce.routemisr.com/api/v1/cart/${productId}`, {
       method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        token: session.accessToken
-      },
-      body: JSON.stringify({ count })
+      headers,
+      body: JSON.stringify({ count }),
     });
+
     if (!response.ok) return { status: "error", message: "Request failed" };
-    const data = await response.json();
-    return data;
+    return await response.json();
   } catch (error) {
     return { status: "error", message: (error as Error).message || "Unknown error" };
   }
