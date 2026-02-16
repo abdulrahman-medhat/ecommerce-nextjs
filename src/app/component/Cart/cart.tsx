@@ -137,7 +137,8 @@ export default function Cart({ cartData }: { cartData: CartResponse }) {
                     </button>
                   </Link>
 
-            <CheckOutSession cartId={cartData.cartId} />
+           <CheckOutSession cartId={cartData.data._id} />
+
                   <Button
                     variant="outline"
                     className="text-destructive hover:text-destructive w-full"

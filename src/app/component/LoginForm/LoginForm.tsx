@@ -61,28 +61,29 @@ export function LoginForm() {
       <CardContent>
         <form id="login-form" onSubmit={form.handleSubmit(onSubmit)}>
           <FieldGroup>
-            <Controller
-              name="email"
-              control={form.control}
-              render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel>Email</FieldLabel>
-                  <Input {...field} />
-                  {fieldState.invalid && <FieldError message={fieldState.error?.message} />}
-                </Field>
-              )}
-            />
-            <Controller
-              name="password"
-              control={form.control}
-              render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel>Password</FieldLabel>
-                  <Input type="password" {...field} />
-                  {fieldState.invalid && <FieldError message={fieldState.error?.message} />}
-                </Field>
-              )}
-            />
+         <Controller
+  name="email"
+  control={form.control}
+  render={({ field, fieldState }) => (
+    <Field data-invalid={fieldState.invalid}>
+      <FieldLabel>Email</FieldLabel>
+      <Input {...field} />
+      {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+    </Field>
+  )}
+/>
+<Controller
+  name="password"
+  control={form.control}
+  render={({ field, fieldState }) => (
+    <Field data-invalid={fieldState.invalid}>
+      <FieldLabel>Password</FieldLabel>
+      <Input type="password" {...field} />
+      {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+    </Field>
+  )}
+/>
+
           </FieldGroup>
         </form>
       </CardContent>

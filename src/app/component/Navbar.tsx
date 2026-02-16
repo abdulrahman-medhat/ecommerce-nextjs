@@ -27,22 +27,32 @@ import { CartResponse } from "../../../Interfaces/Cartinterfaces";
 export default async function Navbar() {
   const session = await getServerSession(authOption);
   let data: CartResponse | null = null;
-  if (session) {
+  if (session?.accessToken) {
     const response = await fetch("https://ecommerce.routemisr.com/api/v1/cart", {
-      headers: { token: session.accessToken },
+      headers: {
+        Authorization: `Bearer ${session.accessToken}`,
+        "Content-Type": "application/json",
+      },
       cache: "no-store",
     });
+
     if (response.ok) {
-      data = await response.json();
+      data = await response.json() as CartResponse;
     }
   }
+
+
 
   let wishlistCount = 0;
   if (session) {
     const res = await fetch("https://ecommerce.routemisr.com/api/v1/wishlist", {
-      headers: { token: session.accessToken },
+      headers: {
+        Authorization: `Bearer ${session.accessToken}`,
+        "Content-Type": "application/json",
+      },
       cache: "no-store",
     });
+
     if (res.ok) {
       const wishlistData = await res.json();
       wishlistCount = wishlistData.count;

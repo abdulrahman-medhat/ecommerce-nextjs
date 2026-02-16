@@ -12,11 +12,12 @@ export default function CartNum({ serverCartNUm, cartId }: CartNumProps) {
   const [cartNu, setCartNum] = useState(serverCartNUm);
 
 
-  useEffect(() => {
-    if (cartId) {
-      localStorage.setItem("cartId", cartId);
-    }
-  }, [cartId]);
+useEffect(() => {
+  if (cartId) {
+    localStorage.setItem("cartId", cartId);
+  }
+}, [cartId]);
+
 
   useEffect(() => {
     function handler(e: Event) {

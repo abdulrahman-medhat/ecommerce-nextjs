@@ -6,6 +6,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Field, FieldLabel, FieldError, FieldGroup } from "@/components/ui/field";
+
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
@@ -84,10 +85,19 @@ export default function ChangePasswordPage() {
                   <Field data-invalid={fieldState.invalid}>
                     <FieldLabel>Current Password</FieldLabel>
                     <Input type="password" {...field} />
-                    {fieldState.invalid && <FieldError message={fieldState.error?.message} />}
+                    {fieldState.invalid && (
+                      <FieldError
+                        errors={
+                          fieldState.error
+                            ? [{ message: fieldState.error.message }]
+                            : undefined
+                        }
+                      />
+                    )}
                   </Field>
                 )}
               />
+
               <Controller
                 name="password"
                 control={form.control}
@@ -95,7 +105,17 @@ export default function ChangePasswordPage() {
                   <Field data-invalid={fieldState.invalid}>
                     <FieldLabel>New Password</FieldLabel>
                     <Input type="password" {...field} />
-                    {fieldState.invalid && <FieldError message={fieldState.error?.message} />}
+                    {fieldState.invalid && (
+                      <FieldError
+                        errors={
+                          fieldState.error
+                            ? [{ message: fieldState.error.message }]
+                            : undefined
+                        }
+                      />
+                    )}
+
+
                   </Field>
                 )}
               />
@@ -106,7 +126,16 @@ export default function ChangePasswordPage() {
                   <Field data-invalid={fieldState.invalid}>
                     <FieldLabel>Confirm New Password</FieldLabel>
                     <Input type="password" {...field} />
-                    {fieldState.invalid && <FieldError message={fieldState.error?.message} />}
+                   {fieldState.invalid && (
+  <FieldError
+    errors={
+      fieldState.error
+        ? [{ message: fieldState.error.message }]
+        : undefined
+    }
+  />
+)}
+
                   </Field>
                 )}
               />
