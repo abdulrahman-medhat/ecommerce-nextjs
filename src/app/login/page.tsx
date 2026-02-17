@@ -1,7 +1,10 @@
 "use client";
 
 import React from "react";
-import { LoginForm } from "../component/LoginForm/LoginForm";
+import { LoginForm } from "../components/LoginForm/LoginForm";
+
+
+export const dynamic = 'force-dynamic';
 
 export default function LoginPage() {
   return (
