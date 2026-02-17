@@ -27,6 +27,7 @@ import { CartResponse } from "../../../Interfaces/Cartinterfaces";
 export default async function Navbar() {
   const session = await getServerSession(authOption);
   let data: CartResponse | null = null;
+
   if (session?.accessToken) {
     const response = await fetch("https://ecommerce.routemisr.com/api/v1/cart", {
       headers: {
@@ -35,10 +36,7 @@ export default async function Navbar() {
       },
       cache: "no-store",
     });
-
-    if (response.ok) {
-      data = await response.json() as CartResponse;
-    }
+    if (response.ok) data = await response.json() as CartResponse;
   }
 
   let wishlistCount = 0;
@@ -50,7 +48,6 @@ export default async function Navbar() {
       },
       cache: "no-store",
     });
-
     if (res.ok) {
       const wishlistData = await res.json();
       wishlistCount = wishlistData.count;
@@ -58,9 +55,8 @@ export default async function Navbar() {
   }
 
   return (
-    <nav className="shadow bg-white p-4">
+    <nav className="shadow bg-white p-4 relative">
       <div className="container mx-auto font-semibold flex flex-col md:flex-row items-center justify-between">
-        {/* Logo */}
         <div className="flex items-center mb-4 md:mb-0">
           <div className="bg-black text-white w-8 h-8 flex items-center justify-center font-bold mr-2">S</div>
           <h2 className="text-2xl">
@@ -68,7 +64,6 @@ export default async function Navbar() {
           </h2>
         </div>
 
-        {/* Desktop Menu */}
         <div className="hidden md:flex gap-6">
           <NavigationMenu>
             <NavigationMenuList>
@@ -91,11 +86,11 @@ export default async function Navbar() {
           </NavigationMenu>
         </div>
 
-        {/* Icons: User, Cart, Wishlist */}
-        <div className="flex items-center gap-4">
+        {/* Desktop Icons */}
+        <div className="hidden md:flex items-center gap-4">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <UserIcon className="size-6" />
+              <UserIcon className="w-6 h-6 cursor-pointer" />
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuGroup>
@@ -121,21 +116,23 @@ export default async function Navbar() {
             </DropdownMenuContent>
           </DropdownMenu>
 
-          <Carticon
-            serverCartNUm={data?.numOfCartItems || 0}
-            cartId={data?.data?.cartOwner || ""}
-          />
-
+          <Carticon serverCartNUm={data?.numOfCartItems || 0} cartId={data?.data?.cartOwner || ""} />
           {session && <WishlisNum serverCartNUm={wishlistCount} />}
         </div>
 
-        {/* Mobile Menu Button */}
-        <MobileMenu
-          session={session}
-          serverCartNum={data?.numOfCartItems || 0}
-          wishlistCount={wishlistCount}
-        />
+        <MobileMenu session={session} serverCartNum={data?.numOfCartItems || 0} wishlistCount={wishlistCount} />
       </div>
+
+      {/* Floating Icons for Mobile */}
+      {session && (
+        <div className="fixed top-4 right-4 flex gap-4 z-50 md:hidden">
+          <Carticon serverCartNUm={data?.numOfCartItems || 0} cartId={session.user.cartId} />
+          <WishlisNum serverCartNUm={wishlistCount || 0} />
+          <button onClick={() => signOut({ callbackUrl: "/" })}>
+            <UserIcon className="w-6 h-6 cursor-pointer" />
+          </button>
+        </div>
+      )}
     </nav>
   );
 }
