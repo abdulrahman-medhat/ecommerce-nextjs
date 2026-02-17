@@ -18,7 +18,7 @@ export async function checkOutAction(cartId: string, shippingAddress: ShippingAd
     };
 
     const response = await fetch(
-      `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cartId}?url=http://localhost:3000`,
+      `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cartId}?url=https://ecommerce-nextjs-cszo.vercel.app/`,
       {
         method: "POST",
         headers: headers,
