@@ -120,7 +120,11 @@ export default async function Navbar() {
             </DropdownMenuContent>
           </DropdownMenu>
 
-          {session && data && <Carticon serverCartNUm={data.numOfCartItems} cartId={data.data.cartOwner} />}
+          <Carticon
+            serverCartNUm={data?.numOfCartItems || 0}
+            cartId={data?.data?.cartOwner || ""}
+          />
+
           {session && <WishlisNum serverCartNUm={wishlistCount} />}
         </div>
 

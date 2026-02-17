@@ -3,12 +3,11 @@ import React, { useState, useEffect } from "react";
 import { Button } from "../../../../components/ui/button";
 import Link from "next/link";
 import { formatCurrency } from "../../../Helpers/formatCurrency";
-import { deletproductAction, clearCartAction, updateCartQuantityAction } from "../../../actoins/cartActions";
 import { Loader2 } from "lucide-react";
 import Image from "next/image";
 import { CartResponse } from './../../../../Interfaces/Cartinterfaces';
 import CheckOutSession from "../CheckOutSession/CheckOutSession";
-
+import { deleteCart, updateCart, clearCart } from "../../../actoins/cartActions";
 
 export default function Cart({ cartData }: { cartData: CartResponse }) {
   const [cart, setCart] = useState<CartResponse | null>(cartData);
@@ -20,7 +19,7 @@ export default function Cart({ cartData }: { cartData: CartResponse }) {
 
   async function deletCartProduct(productId: string) {
     setLoadingId(productId);
-    const response: CartResponse = await deletproductAction(productId);
+    const response: CartResponse = await deleteCart(productId);
     if (response.status === "success") {
       setCart(response);
       window.dispatchEvent(new CustomEvent("cartupdate", { detail: response.numOfCartItems }));
@@ -30,7 +29,7 @@ export default function Cart({ cartData }: { cartData: CartResponse }) {
 
   async function updateCartQuantity(productId: string, count: number) {
     setLoadingId(productId);
-    const response: CartResponse = await updateCartQuantityAction(productId, count);
+    const response: CartResponse = await updateCart(productId, count);
     if (response.status === "success") {
       setCart(response);
       window.dispatchEvent(new CustomEvent("cartupdate", { detail: response.numOfCartItems }));
@@ -38,15 +37,18 @@ export default function Cart({ cartData }: { cartData: CartResponse }) {
     setLoadingId(null);
   }
 
-  async function clearCart() {
+  async function clearCartt() {
     setLoadingId("clear");
-    const response: CartResponse = await clearCartAction();
+    const response: CartResponse = await clearCart();
     if (response.status === "success") {
       setCart(response);
       window.dispatchEvent(new CustomEvent("cartupdate", { detail: 0 }));
     }
     setLoadingId(null);
   }
+
+  const updateCartQuantityHandler = (productId: string, count: number) => updateCartQuantity(productId, count);
+  const clearCartHandler = () => clearCartt();
 
   return (
     <>
@@ -90,14 +92,14 @@ export default function Cart({ cartData }: { cartData: CartResponse }) {
                         <button
                           disabled={item.count === 1}
                           className="size-8 rounded-lg border hover:bg-accent"
-                          onClick={() => updateCartQuantity(item.product._id, item.count - 1)}
+                          onClick={() => updateCartQuantityHandler(item.product._id, item.count - 1)}
                         >
                           -
                         </button>
                         <span className="w-6 text-center font-medium">{item.count}</span>
                         <button
                           className="size-8 rounded-lg border hover:bg-accent"
-                          onClick={() => updateCartQuantity(item.product._id, item.count + 1)}
+                          onClick={() => updateCartQuantityHandler(item.product._id, item.count + 1)}
                         >
                           +
                         </button>
@@ -137,12 +139,12 @@ export default function Cart({ cartData }: { cartData: CartResponse }) {
                     </button>
                   </Link>
 
-           <CheckOutSession cartId={cartData.data._id} />
+                  <CheckOutSession cartId={cart.data._id} />
 
                   <Button
                     variant="outline"
                     className="text-destructive hover:text-destructive w-full"
-                    onClick={clearCart}
+                    onClick={clearCartHandler}
                     disabled={loadingId === "clear"}
                   >
                     {loadingId === "clear" ? <Loader2 className="animate-spin mx-auto" /> : "Clear Cart"}

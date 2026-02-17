@@ -19,15 +19,15 @@ useEffect(() => {
 }, [cartId]);
 
 
-  useEffect(() => {
-    function handler(e: Event) {
-      const customEvent = e as CustomEvent<number>;
-      setCartNum(customEvent.detail);
-    }
+useEffect(() => {
+  function handler(e: Event) {
+    const event = e as CustomEvent<number>;
+    setCartNum(event.detail);
+  }
 
-    window.addEventListener("cartupdate", handler);
-    return () => window.removeEventListener("cartupdate", handler);
-  }, []);
+  window.addEventListener("cartupdate", handler);
+  return () => window.removeEventListener("cartupdate", handler);
+}, []);
 
   return (
     <Link href="/cart" className="relative cursor-pointer">

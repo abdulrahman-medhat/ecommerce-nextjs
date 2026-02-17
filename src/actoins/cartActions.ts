@@ -1,61 +1,88 @@
 "use server";
+
 import { getServerSession } from "next-auth";
 import { authOption } from "../auth";
 
-export async function deletproductAction(productId: string) {
-  const session = await getServerSession(authOption);
-  if (!session?.accessToken) return { status: "error", message: "User not authenticated" };
-
-  const headers: HeadersInit = {
-    ...(session.accessToken && { token: session.accessToken }),
-  };
-
-  const response = await fetch(`https://ecommerce.routemisr.com/api/v1/cart/${productId}`, {
-    method: "DELETE",
-    headers,
-  });
-
-  if (!response.ok) return { status: "error", message: "Request failed" };
-  return await response.json();
+interface ServerResponse {
+  status: "success" | "error";
+  message?: string;
+  numOfCartItems?: number;
 }
 
-export async function clearCartAction() {
+export async function deleteCart(productId: string): Promise<ServerResponse> {
   const session = await getServerSession(authOption);
   if (!session?.accessToken) return { status: "error", message: "User not authenticated" };
-
-  const headers: HeadersInit = {
-    ...(session.accessToken && { token: session.accessToken }),
-  };
-
-  const response = await fetch("https://ecommerce.routemisr.com/api/v1/cart/", {
-    method: "DELETE",
-    headers,
-  });
-
-  if (!response.ok) return { status: "error", message: "Request failed" };
-  return await response.json();
-}
-
-export async function updateCartQuantityAction(productId: string, count: number) {
-  const session = await getServerSession(authOption);
-  if (!session?.accessToken) {
-    return { status: "error", message: "User not authenticated" };
-  }
-
-  const headers: HeadersInit = {
-    "Content-Type": "application/json",
-    ...(session.accessToken && { token: session.accessToken }),
-  };
 
   try {
-    const response = await fetch(`https://ecommerce.routemisr.com/api/v1/cart/${productId}`, {
+    const res = await fetch(`https://ecommerce.routemisr.com/api/v1/cart/${productId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        token: session.accessToken,
+      },
+    });
+
+    if (!res.ok) return { status: "error", message: "Request failed" };
+    const data = await res.json();
+
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(new CustomEvent("cartupdate", { detail: data.numOfCartItems }));
+    }
+
+    return data;
+  } catch (error) {
+    return { status: "error", message: (error as Error).message || "Unknown error" };
+  }
+}
+
+export async function clearCart(): Promise<ServerResponse> {
+  const session = await getServerSession(authOption);
+  if (!session?.accessToken) return { status: "error", message: "User not authenticated" };
+
+  try {
+    const res = await fetch("https://ecommerce.routemisr.com/api/v1/cart/", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        token: session.accessToken,
+      },
+    });
+
+    if (!res.ok) return { status: "error", message: "Request failed" };
+    const data = await res.json();
+
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(new CustomEvent("cartupdate", { detail: 0 }));
+    }
+
+    return data;
+  } catch (error) {
+    return { status: "error", message: (error as Error).message || "Unknown error" };
+  }
+}
+
+export async function updateCart(productId: string, count: number): Promise<ServerResponse> {
+  const session = await getServerSession(authOption);
+  if (!session?.accessToken) return { status: "error", message: "User not authenticated" };
+
+  try {
+    const res = await fetch(`https://ecommerce.routemisr.com/api/v1/cart/${productId}`, {
       method: "PUT",
-      headers,
+      headers: {
+        "Content-Type": "application/json",
+        token: session.accessToken,
+      },
       body: JSON.stringify({ count }),
     });
 
-    if (!response.ok) return { status: "error", message: "Request failed" };
-    return await response.json();
+    if (!res.ok) return { status: "error", message: "Request failed" };
+    const data = await res.json();
+
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(new CustomEvent("cartupdate", { detail: data.numOfCartItems }));
+    }
+
+    return data;
   } catch (error) {
     return { status: "error", message: (error as Error).message || "Unknown error" };
   }

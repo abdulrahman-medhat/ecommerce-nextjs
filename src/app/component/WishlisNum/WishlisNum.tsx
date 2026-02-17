@@ -7,14 +7,15 @@ export default function WishlisNum({ serverCartNUm }: { serverCartNUm: number })
   const [wishlistNum, setWishlistNum] = useState(serverCartNUm);
 
   useEffect(() => {
-    function handler(e: Event) {
-      const customEvent = e as CustomEvent<number>;
-      setWishlistNum(customEvent.detail);
-    }
+  function handler(e: Event) {
+    const event = e as CustomEvent<number>;
+    setWishlistNum(event.detail);
+  }
 
-    window.addEventListener("wishlistupdate", handler);
-    return () => window.removeEventListener("wishlistupdate", handler);
-  }, []);
+  window.addEventListener("wishlistupdate", handler);
+  return () => window.removeEventListener("wishlistupdate", handler);
+}, []);
+
 
   return (
     <Link href="/wishlist" className="relative flex items-center gap-1">

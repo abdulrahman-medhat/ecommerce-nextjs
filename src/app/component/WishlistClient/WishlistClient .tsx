@@ -16,7 +16,7 @@ export default function WishlistClient ({ initialWishlist }: any) {
     setWishlist(updated);
 
     window.dispatchEvent(
-      new CustomEvent("cartupdate", {
+      new CustomEvent("wishlistupdate", {
         detail: updated.length,
       })
     );

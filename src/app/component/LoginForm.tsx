@@ -1,3 +1,4 @@
+
 "use client";
 import React, { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
@@ -24,7 +25,7 @@ const formSchema = z.object({
 type FormData = z.infer<typeof formSchema>;
 
 
-export default function LoginPage() {
+export default function LoginForm() {
  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
