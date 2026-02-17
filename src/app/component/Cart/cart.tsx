@@ -19,7 +19,7 @@ export default function Cart({ cartData }: { cartData: CartResponse }) {
 
   async function deletCartProduct(productId: string) {
     setLoadingId(productId);
-    const response: CartResponse = await deleteCart(productId);
+    const response: any= await deleteCart(productId);
     if (response.status === "success") {
       setCart(response);
       window.dispatchEvent(new CustomEvent("cartupdate", { detail: response.numOfCartItems }));
@@ -29,7 +29,7 @@ export default function Cart({ cartData }: { cartData: CartResponse }) {
 
   async function updateCartQuantity(productId: string, count: number) {
     setLoadingId(productId);
-    const response: CartResponse = await updateCart(productId, count);
+    const response: any= await updateCart(productId, count);
     if (response.status === "success") {
       setCart(response);
       window.dispatchEvent(new CustomEvent("cartupdate", { detail: response.numOfCartItems }));
@@ -39,7 +39,7 @@ export default function Cart({ cartData }: { cartData: CartResponse }) {
 
   async function clearCartt() {
     setLoadingId("clear");
-    const response: CartResponse = await clearCart();
+    const response: any = await clearCart();
     if (response.status === "success") {
       setCart(response);
       window.dispatchEvent(new CustomEvent("cartupdate", { detail: 0 }));
