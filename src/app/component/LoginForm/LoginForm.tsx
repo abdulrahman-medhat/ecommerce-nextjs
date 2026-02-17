@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Loader } from "lucide-react";
 import Link from "next/link";
 
+// Validation schema
 const formSchema = z.object({
   email: z.string().nonempty("Email is required").email("Email is invalid"),
   password: z.string().nonempty("Password is required").min(8, "Password must be at least 8 characters"),
