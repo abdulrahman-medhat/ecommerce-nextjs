@@ -41,8 +41,6 @@ export default async function Navbar() {
     }
   }
 
-
-
   let wishlistCount = 0;
   if (session) {
     const res = await fetch("https://ecommerce.routemisr.com/api/v1/wishlist", {
@@ -62,6 +60,7 @@ export default async function Navbar() {
   return (
     <nav className="shadow bg-white p-4">
       <div className="container mx-auto font-semibold flex flex-col md:flex-row items-center justify-between">
+        {/* Logo */}
         <div className="flex items-center mb-4 md:mb-0">
           <div className="bg-black text-white w-8 h-8 flex items-center justify-center font-bold mr-2">S</div>
           <h2 className="text-2xl">
@@ -69,6 +68,7 @@ export default async function Navbar() {
           </h2>
         </div>
 
+        {/* Desktop Menu */}
         <div className="hidden md:flex gap-6">
           <NavigationMenu>
             <NavigationMenuList>
@@ -91,7 +91,8 @@ export default async function Navbar() {
           </NavigationMenu>
         </div>
 
-        <div className="hidden md:flex items-center gap-4">
+        {/* Icons: User, Cart, Wishlist */}
+        <div className="flex items-center gap-4">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <UserIcon className="size-6" />
@@ -128,6 +129,7 @@ export default async function Navbar() {
           {session && <WishlisNum serverCartNUm={wishlistCount} />}
         </div>
 
+        {/* Mobile Menu Button */}
         <MobileMenu
           session={session}
           serverCartNum={data?.numOfCartItems || 0}
