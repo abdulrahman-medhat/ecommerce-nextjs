@@ -11,23 +11,36 @@ interface CartNumProps {
 export default function CartNum({ serverCartNUm, cartId }: CartNumProps) {
   const [cartNu, setCartNum] = useState(serverCartNUm);
 
+  // حفظ cartId
+  useEffect(() => {
+    if (cartId) {
+      localStorage.setItem("cartId", cartId);
+    }
+  }, [cartId]);
 
-useEffect(() => {
-  if (cartId) {
-    localStorage.setItem("cartId", cartId);
-  }
-}, [cartId]);
+  // قراءة العدد من localStorage (fallback)
+  useEffect(() => {
+    const saved = localStorage.getItem("cartNum");
+    if (saved) {
+      setCartNum(Number(saved));
+    }
+  }, []);
 
+  // تحديث عند event
+  useEffect(() => {
+    function handler(e: Event) {
+      const event = e as CustomEvent<number>;
+      setCartNum(event.detail);
+    }
 
-useEffect(() => {
-  function handler(e: Event) {
-    const event = e as CustomEvent<number>;
-    setCartNum(event.detail);
-  }
+    window.addEventListener("cartupdate", handler);
+    return () => window.removeEventListener("cartupdate", handler);
+  }, []);
 
-  window.addEventListener("cartupdate", handler);
-  return () => window.removeEventListener("cartupdate", handler);
-}, []);
+  // حفظ العدد
+  useEffect(() => {
+    localStorage.setItem("cartNum", cartNu.toString());
+  }, [cartNu]);
 
   return (
     <Link href="/cart" className="relative cursor-pointer">

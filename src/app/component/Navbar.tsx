@@ -1,4 +1,4 @@
-"use server";
+
 import Link from "next/link";
 import React from "react";
 import {
@@ -8,12 +8,6 @@ import {
   NavigationMenuList,
 } from "@/components/ui/navigation-menu";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { UserIcon } from "lucide-react";
 import { getServerSession } from "next-auth";
@@ -24,6 +18,7 @@ import WishlisNum from "./WishlisNum/WishlisNum";
 import MobileMenu from "./MobileMenu/MobileMenu";
 import ThemeToggle from "./ThemeToggle";
 import { CartResponse } from "../../../Interfaces/Cartinterfaces";
+import UserMenu from './UserMenu';
 
 export default async function Navbar() {
   const session = await getServerSession(authOption);
@@ -103,42 +98,13 @@ export default async function Navbar() {
         </div>
 
         {/* Desktop Right Icons */}
-        <div className="hidden md:flex items-center gap-4">
-          {/* User Dropdown */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <UserIcon className="w-6 h-6 cursor-pointer" />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuGroup>
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                {session ? (
-                  <>
-                    <Link href="/allorders">
-                      <DropdownMenuItem>My Orders</DropdownMenuItem>
-                    </Link>
-                    <LogOut />
-                  </>
-                ) : (
-                  <>
-                    <Link href="/login">
-                      <DropdownMenuItem>Login</DropdownMenuItem>
-                    </Link>
-                    <Link href="/register">
-                      <DropdownMenuItem>Register</DropdownMenuItem>
-                    </Link>
-                  </>
-                )}
-              </DropdownMenuGroup>
-            </DropdownMenuContent>
-          </DropdownMenu>
-
-          {/* Cart & Wishlist */}
-          {session && <Carticon serverCartNUm={cartNum} cartId={cartOwnerId} />}
-          <ThemeToggle />
-          {session && <WishlisNum serverCartNUm={wishlistCount} />}
-        </div>
-
+  {/* Desktop Right Icons */}
+<div className="hidden md:flex items-center gap-4">
+  <UserMenu isLoggedIn={!!session} />
+  {session && <Carticon serverCartNUm={cartNum} cartId={cartOwnerId} />}
+  <ThemeToggle />
+  {session && <WishlisNum serverCartNUm={wishlistCount} />}
+</div>
         {/* Mobile Menu */}
         <MobileMenu session={session} serverCartNum={cartNum} wishlistCount={wishlistCount} />
       </div>

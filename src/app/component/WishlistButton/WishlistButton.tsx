@@ -35,9 +35,16 @@ export default function WishlistButton({
         if (!data) {
           router.push("/login");
           return;
-        }
+        } window.dispatchEvent(
+          new CustomEvent("wishlistupdate", {
+            detail: data.data?.length ?? 0,
+          })
+        );
 
-        window.dispatchEvent(new CustomEvent("wishlistupdate", { detail: data.count ?? 0 }));
+        localStorage.setItem(
+          "wishlistNum",
+          (data.data?.length ?? 0).toString()
+        );
 
       } catch (error) {
         setIsInWishlist(prev => !prev);
@@ -52,11 +59,10 @@ export default function WishlistButton({
         <Loader2 className="animate-spin" />
       ) : (
         <Heart
-          className={`cursor-pointer transition ${
-            isInWishlist
+          className={`cursor-pointer transition ${isInWishlist
               ? "text-red-500 fill-red-500"
               : "hover:text-red-400"
-          }`}
+            }`}
         />
       )}
     </button>
