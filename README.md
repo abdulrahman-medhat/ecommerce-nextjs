@@ -13,5 +13,3 @@ Now with **Dark Mode** and a fully responsive design for a smooth user experienc
 ## 💻 Tech Stack
 Next.js | TypeScript | Tailwind CSS | ShadCN UI | Dark Mode
 
-## 🌐 Live Demo
-[Try it here](https://ecommerce-nextjs-cszo.vercel.app/)
