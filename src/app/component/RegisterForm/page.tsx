@@ -68,7 +68,7 @@ export default function RegisterForm({ onSuccess }: Props) {
   }
 
   return (
-    <Card className="w-full sm:max-w-md mx-auto mt-10">
+    <Card className="w-full sm:max-w-md mx-auto mt-10 ">
       <CardContent>
         <h2 className="text-2xl font-semibold text-center mb-6">Register</h2>
         <form id="register-form" onSubmit={form.handleSubmit(onSubmit)}>

@@ -14,7 +14,7 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-50">
+    <div className="flex items-center justify-center min-h-screen  dark:bg-black text-gray-600 dark:text-gray-300 transition-colors duration-300 bg-gray-50">
 
       <RegisterForm onSuccess={handleSuccess} />
     </div>

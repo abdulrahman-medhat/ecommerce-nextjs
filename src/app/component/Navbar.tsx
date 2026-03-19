@@ -1,138 +1,69 @@
-"use server";
+"use client"; 
+
 import Link from "next/link";
-import React from "react";
-import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-} from "@/components/ui/navigation-menu";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { UserIcon } from "lucide-react";
-import { getServerSession } from "next-auth";
-import { authOption } from "../../auth";
-import LogOut from "./Logout/Logout";
+import { useEffect, useState } from "react";
+import { UserIcon, Menu } from "lucide-react";
+import { signOut } from "next-auth/react";
+import ThemeToggle from "./ThemeToggle";
 import Carticon from "./Carticon/CartNum";
 import WishlisNum from "./WishlisNum/WishlisNum";
 import MobileMenu from "./MobileMenu/MobileMenu";
-import { CartResponse } from "../../../Interfaces/Cartinterfaces";
+import LogOut from "./Logout/Logout";
 
-export default async function Navbar() {
-  const session = await getServerSession(authOption);
-  let data: CartResponse | null = null;
-
-  if (session?.accessToken) {
-    const response = await fetch("https://ecommerce.routemisr.com/api/v1/cart", {
-      headers: {
-        Authorization: `Bearer ${session.accessToken}`,
-        "Content-Type": "application/json",
-      },
-      cache: "no-store",
-    });
-    if (response.ok) data = await response.json() as CartResponse;
-  }
-
-  let wishlistCount = 0;
-  if (session) {
-    const res = await fetch("https://ecommerce.routemisr.com/api/v1/wishlist", {
-      headers: {
-        Authorization: `Bearer ${session.accessToken}`,
-        "Content-Type": "application/json",
-      },
-      cache: "no-store",
-    });
-    if (res.ok) {
-      const wishlistData = await res.json();
-      wishlistCount = wishlistData.count;
-    }
-  }
-
+export default function Navbar({ session, serverCartNum, wishlistCount }: any) {
   return (
-    <nav className="shadow bg-white p-4 relative">
+    <nav className="shadow p-4 relative bg-white/80 dark:bg-black backdrop-blur-md transition-colors duration-300">
       <div className="container mx-auto font-semibold flex flex-col md:flex-row items-center justify-between">
+        
+        {/* Logo */}
         <div className="flex items-center mb-4 md:mb-0">
-          <div className="bg-black text-white w-8 h-8 flex items-center justify-center font-bold mr-2">S</div>
-          <h2 className="text-2xl">
+          <div className="bg-black text-white dark:bg-white dark:text-black w-8 h-8 flex items-center justify-center font-bold mr-2 transition-colors duration-300">S</div>
+          <h2 className="text-2xl text-gray-900 dark:text-gray-100 transition-colors duration-300">
             <Link href="/">Shop Mart</Link>
           </h2>
         </div>
 
-        <div className="hidden md:flex gap-6">
-          <NavigationMenu>
-            <NavigationMenuList>
-              <NavigationMenuItem>
-                <NavigationMenuLink asChild>
-                  <Link href="/products">Products</Link>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <NavigationMenuLink asChild>
-                  <Link href="/brands">Brands</Link>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <NavigationMenuLink asChild>
-                  <Link href="/categories">Categories</Link>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-            </NavigationMenuList>
-          </NavigationMenu>
+        {/* Desktop Menu */}
+        <div className="hidden md:flex gap-6 text-gray-900 dark:text-gray-100 transition-colors duration-300">
+          <Link href="/products" className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors">Products</Link>
+          <Link href="/brands" className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors">Brands</Link>
+          <Link href="/categories" className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors">Categories</Link>
         </div>
 
         {/* Desktop Icons */}
         <div className="hidden md:flex items-center gap-4">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <UserIcon className="w-6 h-6 cursor-pointer" />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuGroup>
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                {session ? (
-                  <>
-                    <Link href="/allorders">
-                      <DropdownMenuItem>My Orders</DropdownMenuItem>
-                    </Link>
-                    <LogOut />
-                  </>
-                ) : (
-                  <>
-                    <Link href="/login">
-                      <DropdownMenuItem>Login</DropdownMenuItem>
-                    </Link>
-                    <Link href="/register">
-                      <DropdownMenuItem>Register</DropdownMenuItem>
-                    </Link>
-                  </>
-                )}
-              </DropdownMenuGroup>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <ThemeToggle />
 
-          <Carticon serverCartNUm={data?.numOfCartItems || 0} cartId={data?.data?.cartOwner || ""} />
-          {session && <WishlisNum serverCartNUm={wishlistCount} />}
+          <Carticon serverCartNUm={serverCartNum || 0} cartId={session?.cartId || ""} />
+          {session && <WishlisNum serverCartNUm={wishlistCount || 0} />}
+
+          <div className="relative">
+            <button className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-300">
+              <UserIcon className="w-6 h-6" />
+            </button>
+            {/* Dropdown Menu */}
+            <div className="absolute right-0 mt-2 w-40 bg-white dark:bg-gray-800 shadow-lg rounded-md p-2 hidden group-hover:block">
+              {session ? (
+                <>
+                  <Link href="/allorders" className="block p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded">My Orders</Link>
+                  <LogOut />
+                </>
+              ) : (
+                <>
+                  <Link href="/login" className="block p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded">Login</Link>
+                  <Link href="/register" className="block p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded">Register</Link>
+                </>
+              )}
+            </div>
+          </div>
         </div>
 
-        <MobileMenu session={session} serverCartNum={data?.numOfCartItems || 0} wishlistCount={wishlistCount} />
+        {/* Mobile Menu */}
+        <div className="flex md:hidden items-center gap-4">
+          <ThemeToggle />
+          <MobileMenu session={session} serverCartNum={serverCartNum || 0} wishlistCount={wishlistCount || 0} />
+        </div>
       </div>
-
-      {/* Floating Icons for Mobile */}
-      {session && (
-        <div className="fixed top-4 right-4 flex gap-4 z-50 md:hidden">
-          <Carticon serverCartNUm={data?.numOfCartItems || 0} cartId={session.user.cartId} />
-          <WishlisNum serverCartNUm={wishlistCount || 0} />
-          <button onClick={() => signOut({ callbackUrl: "/" })}>
-            <UserIcon className="w-6 h-6 cursor-pointer" />
-          </button>
-        </div>
-      )}
     </nav>
   );
 }

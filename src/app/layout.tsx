@@ -4,8 +4,7 @@ import "./globals.css";
 import Navbar from "./component/Navbar";
 import { Toaster } from "react-hot-toast";
 import Footer from "./component/Footer";
-
-
+import ThemeProviderWrapper from "./ThemeProviderWrapper";
 
 export const metadata: Metadata = {
   title: "Shop Mart",
@@ -14,27 +13,30 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-     <html lang="en">
-      <body className="bg-gray-50 text-gray-900">
-    
-        <header className="container mx-auto p-3">
-          <Navbar />
-        </header>
+    <html lang="en" suppressHydrationWarning>
+      <body className="bg-gray-50 text-gray-900 dark:bg-black dark:text-white">
+        
+        <ThemeProviderWrapper>
 
+          <header className="container mx-auto p-3">
+            <Navbar />
+          </header>
 
-        <main className="container mx-auto p-3 min-h-[70vh]">
-          <Toaster />
-          {children}
-        </main>
+          <main className="container mx-auto p-3 min-h-[70vh]">
+            <Toaster />
+            {children}
+          </main>
 
-       
-        <footer className="container mx-auto p-3">
-          <Footer />
-        </footer>
+          <footer className=" container mx-auto p-3">
+            <Footer />
+          </footer>
+
+        </ThemeProviderWrapper>
+
       </body>
     </html>
   );

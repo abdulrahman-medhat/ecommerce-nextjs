@@ -2,16 +2,16 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="shadow bg-gray-100 p-2 text-gray-600">
+    <footer className="shadow bg-gray-100 dark:bg-black text-gray-600 dark:text-gray-300 transition-colors duration-300 p-2">
       <div className="max-w-7xl mx-auto py-1 grid grid-cols-1 md:grid-cols-5 gap-8">
-        
-       
+
+        {/* Logo & Info */}
         <div className="md:col-span-1">
           <div className="flex items-center mb-4">
-            <div className="bg-black text-white w-8 h-8 flex items-center justify-center font-bold mr-2">
+            <div className="bg-black text-white dark:bg-white dark:text-black w-8 h-8 flex items-center justify-center font-bold mr-2 transition-colors duration-300">
               S
             </div>
-            <span className="text-lg font-semibold text-gray-800">
+            <span className="text-lg font-semibold text-gray-800 dark:text-gray-100 transition-colors duration-300">
               ShopMart
             </span>
           </div>
@@ -26,58 +26,60 @@ export default function Footer() {
           </ul>
         </div>
 
-                <div>
-          <h3 className="font-semibold text-gray-800 mb-4">SHOP</h3>
+        {/* SHOP */}
+        <div>
+          <h3 className="font-semibold text-gray-800 dark:text-gray-100 mb-4 transition-colors duration-300">SHOP</h3>
           <ul className="space-y-2 text-sm">
-            <li><Link href="#">Electronics</Link></li>
-            <li><Link href="#">Fashion</Link></li>
-            <li><Link href="#">Home & Garden</Link></li>
-            <li><Link href="#">Sports</Link></li>
-            <li><Link href="#">Deals</Link></li>
+            <li><Link href="#" className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors">Electronics</Link></li>
+            <li><Link href="#" className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors">Fashion</Link></li>
+            <li><Link href="#" className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors">Home & Garden</Link></li>
+            <li><Link href="#" className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors">Sports</Link></li>
+            <li><Link href="#" className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors">Deals</Link></li>
           </ul>
         </div>
 
-       
+        {/* CUSTOMER SERVICE */}
         <div>
-          <h3 className="font-semibold text-gray-800 mb-4">
+          <h3 className="font-semibold text-gray-800 dark:text-gray-100 mb-4 transition-colors duration-300">
             CUSTOMER SERVICE
           </h3>
           <ul className="space-y-2 text-sm">
-            <li><Link href="#">Contact Us</Link></li>
-            <li><Link href="#">Help Center</Link></li>
-            <li><Link href="#">Track Your Order</Link></li>
-            <li><Link href="#">Returns & Exchanges</Link></li>
-            <li><Link href="#">Size Guide</Link></li>
+            <li><Link href="#" className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors">Contact Us</Link></li>
+            <li><Link href="#" className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors">Help Center</Link></li>
+            <li><Link href="#" className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors">Track Your Order</Link></li>
+            <li><Link href="#" className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors">Returns & Exchanges</Link></li>
+            <li><Link href="#" className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors">Size Guide</Link></li>
           </ul>
         </div>
 
-        
+        {/* ABOUT */}
         <div>
-          <h3 className="font-semibold text-gray-800 mb-4">ABOUT</h3>
+          <h3 className="font-semibold text-gray-800 dark:text-gray-100 mb-4 transition-colors duration-300">ABOUT</h3>
           <ul className="space-y-2 text-sm">
-            <li><Link href="#">About ShopMart</Link></li>
-            <li><Link href="#">Careers</Link></li>
-            <li><Link href="#">Press</Link></li>
-            <li><Link href="#">Investor Relations</Link></li>
-            <li><Link href="#">Sustainability</Link></li>
+            <li><Link href="#" className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors">About ShopMart</Link></li>
+            <li><Link href="#" className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors">Careers</Link></li>
+            <li><Link href="#" className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors">Press</Link></li>
+            <li><Link href="#" className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors">Investor Relations</Link></li>
+            <li><Link href="#" className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors">Sustainability</Link></li>
           </ul>
         </div>
 
-    
+        {/* POLICIES */}
         <div>
-          <h3 className="font-semibold text-gray-800 mb-4">POLICIES</h3>
+          <h3 className="font-semibold text-gray-800 dark:text-gray-100 mb-4 transition-colors duration-300">POLICIES</h3>
           <ul className="space-y-2 text-sm">
-            <li><Link href="#">Privacy Policy</Link></li>
-            <li><Link href="#">Terms of Service</Link></li>
-            <li><Link href="#">Cookie Policy</Link></li>
-            <li><Link href="#">Shipping Policy</Link></li>
-            <li><Link href="#">Refund Policy</Link></li>
+            <li><Link href="#" className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors">Privacy Policy</Link></li>
+            <li><Link href="#" className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors">Terms of Service</Link></li>
+            <li><Link href="#" className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors">Cookie Policy</Link></li>
+            <li><Link href="#" className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors">Shipping Policy</Link></li>
+            <li><Link href="#" className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors">Refund Policy</Link></li>
           </ul>
         </div>
+
       </div>
 
-     
-      <div className="border-t border-gray-200 text-center py-4 text-sm">
+      {/* Footer Bottom */}
+      <div className="border-t border-gray-200 dark:border-gray-700 text-center py-4 text-sm transition-colors duration-300">
         © 2026 ShopMart. All rights reserved.
       </div>
     </footer>
