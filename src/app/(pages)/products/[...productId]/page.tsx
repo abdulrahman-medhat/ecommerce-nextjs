@@ -59,6 +59,7 @@ export default async function ProductDetails({ params }: { params: Params }) {
 
       <AddToCart productId={Product.id} />
       </div>
+      
     </Card>
   );
 }
