@@ -5,6 +5,7 @@ import { UserIcon, X } from "lucide-react";
 import Carticon from "../Carticon/CartNum";
 import WishlisNum from "../WishlisNum/WishlisNum";
 import { signOut } from "next-auth/react";
+import ThemeToggle from "../ThemeToggle";
 
 interface MobileMenuProps {
   session: any;
@@ -34,7 +35,7 @@ export default function MobileMenu({ session, serverCartNum, wishlistCount }: Mo
       )}
 
       <div
-        className={`fixed top-0 right-0 h-full w-64 bg-white shadow-lg z-50 transform transition-transform duration-300 ${isOpen ? "translate-x-0" : "translate-x-full"
+        className={`fixed top-0 right-0 h-full w-64  p-4 dark:bg-black text-gray-600 dark:text-gray-300 bg-white shadow-lg z-50 transform transition-transform duration-300 ${isOpen ? "translate-x-0" : "translate-x-full"
           }`}
       >
         <div className="flex items-center justify-between p-4 border-b">
@@ -75,6 +76,7 @@ export default function MobileMenu({ session, serverCartNum, wishlistCount }: Mo
             )}
 
             {session && <WishlisNum serverCartNUm={wishlistCount || 0} />}
+             <ThemeToggle />
 
           </div>
         </div>
